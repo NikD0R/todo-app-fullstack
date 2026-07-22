@@ -51,7 +51,21 @@ const updateTodo = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Task is not found" });
     }
 
-    const updatedTodo = await todosService.updateTodo(id as string, req.body);
+    const {
+      id: bodyId,
+      created_at,
+      updated_at,
+      due_date,
+      ...restData
+    } = req.body;
+
+    const safeData = { ...restData };
+
+    if (due_date !== undefined) {
+      safeData.due_date = due_date === "" ? null : due_date;
+    }
+
+    const updatedTodo = await todosService.updateTodo(id as string, safeData);
 
     res.status(200).json({ status: "success", data: { updatedTodo } });
   } catch (error) {
