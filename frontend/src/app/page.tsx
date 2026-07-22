@@ -6,7 +6,9 @@ const TodoList = dynamic(
   () => import("@/components/todo-list").then((mod) => mod.TodoList),
   {
     ssr: false,
-    loading: () => <div className="p-4">Loading tasks...</div>,
+    loading: () => (
+      <div className="text-center text-slate-500 py-10">Loading page...</div>
+    ),
   },
 );
 
